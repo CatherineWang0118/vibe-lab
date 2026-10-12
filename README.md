@@ -77,6 +77,17 @@ pnpm build
 
 该项目使用 Vinext/Cloudflare Workers 兼容的服务端路由。在部署平台的**服务端运行时环境变量**中设置上述三个值，然后执行生产构建与部署。若使用本项目关联的 Sites 发布流程，在 Site 的运行时环境变量中将三项标为 secret，再发布新的版本。
 
+### Railway / Render（推荐的 Node 部署方式）
+
+项目的默认启动命令已配置为 `vinext start`，可直接用于 Railway 或 Render 等 Node Web Service。原来的 Cloudflare 本地预览命令保留为 `npm run start:cloudflare`。
+
+1. 在 Railway 或 Render 新建 **Web Service**，连接仓库：`https://github.com/CatherineWang0118/vibe-lab`。
+2. 使用 Node 22；构建命令填写 `npm ci && npm run build`，启动命令填写 `npm run start`。平台会自动提供 `PORT`，无需自行固定端口。
+3. 在平台的 Variables / Environment 中添加 `COZE_WORKFLOW_ID`、`COZE_API_TOKEN` 和 `MINIMAX_API_KEY`。这些值必须标记为 secret，不能写入 GitHub 或前端配置。
+4. 首次部署完成后，打开平台提供的 HTTPS 地址。没有配置变量时应用仍可在“演示模式”下完整体验；真实接口与媒体生成会显示未配置提示。
+
+> Railway 与 Render 的免费方案及可用区域会随账号和时间变化。发布前请在各自控制台确认配额、休眠策略和所在区域。真实 MiniMax 媒体生成仍仅在用户主动确认后触发，可能产生第三方费用。
+
 ## 验证范围
 
 - 已实现：演示流程、多版本、编辑、复制、移动端布局、Coze 同步工作流代理、常见结果包装解析、MiniMax 图片/视频提交与视频任务轮询、付费调用确认、单任务故障隔离。
